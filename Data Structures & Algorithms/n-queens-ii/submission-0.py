@@ -1,0 +1,30 @@
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        res=[]
+        pos=set()
+        neg=set()
+        col=set()
+        board=[['.' for _ in range(n)] for _ in range(n)]
+        def dfs(r):
+            if r==n:
+                res.append(["".join(row) for row in board])
+                return
+            
+            for c in range(n):
+                if c in col or (r+c) in pos or (r-c) in neg:
+                    continue
+                
+                board[r][c]='Q'
+                col.add(c)
+                pos.add((r+c))
+                neg.add((r-c))
+                
+                dfs(r+1)
+
+                board[r][c]='.'
+                col.remove(c)
+                pos.remove((r+c))
+                neg.remove((r-c))
+
+        dfs(0)
+        return len(res)
